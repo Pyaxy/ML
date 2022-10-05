@@ -39,6 +39,31 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+% 添加偏置单元
+a1 = [ones(m,1) X];
+z2 = a1*Theta1'; 
+a2 = sigmoid(z2);
+% 添加偏置单元
+a2 = [ones(m,1) a2];
+z3 = a2*Theta2';
+a3 = sigmoid(z3);
+temp = y;
+y = zeros(m,num_labels);
+for i = 1:m
+    y(i,temp(i)) = 1;
+end
+J = (1/m)*sum(sum(-y.*log(a3)-(1.-y).*log(1.-a3)));
+% 添加正则化
+
+% 忽略偏置项
+Theta1(:,1) = 0;
+Theta2(:,1) = 0;
+% 计算正则化
+reg = (lambda/(2*m))*(sum(sum(Theta1.^2))+sum(sum(Theta2.^2)));
+
+J = J + reg;
+
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -54,6 +79,15 @@ Theta2_grad = zeros(size(Theta2));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+delta_3 = a3 - y;   % 5000 by 10
+z2 = [ones(m, 1) z2];
+delta_2 = (delta_3 * Theta2) .* sigmoidGradient(z2);    % 5000 by 26 
+delta_2(:,1) = [];
+triangle_1 = delta_2'*a1;
+triangle_2 = delta_3'*a2;
+Theta1_grad = (1/m).*triangle_1;
+Theta2_grad = (1/m).*triangle_2;
+% grad = [Theta1_grad(:); Theta2_grad(:)];
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -61,7 +95,9 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
+Theta1_grad = Theta1_grad + (lambda/m)*Theta1;
+Theta2_grad = Theta2_grad + (lambda/m)*Theta2;
+gard = [Theta1_grad(:); Theta2_grad(:)];
 
 
 

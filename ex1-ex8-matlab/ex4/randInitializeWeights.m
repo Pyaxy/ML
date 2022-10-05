@@ -20,7 +20,9 @@ W = zeros(L_out, 1 + L_in);
 %
 
 
-
+epsilon_init = 0.12;
+% 加一是偏置项
+W = rand(L_out, 1 + L_in) * 2 * epsilon_init - epsilon_init;
 
 
 
