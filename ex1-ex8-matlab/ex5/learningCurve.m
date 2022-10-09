@@ -53,7 +53,23 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+for i = 1:m
+    for j = 1:50
+        Rand = randi(m,1,i);
+        X_rand = X(Rand,:);
+        Xval_rand = Xval(Rand,:);
+        y_rand = y(Rand);
+        yval_rand = yval(Rand,:);
+        theta = trainLinearReg(X_rand,y_rand,lambda);
+        % theta = trainLinearReg(X(1:i,:),y(1:i),lambda);
+        error_train(i) = error_train(i) + linearRegCostFunction(X_rand,y_rand,theta,0);
+        % error_train(i) = linearRegCostFunction(X(1:i,:),y(1:i),theta,0);
+        error_val(i) = error_val(i) + linearRegCostFunction(Xval_rand,yval_rand,theta,0);
+    end
+    error_train(i) = error_train(i)/50;
+    error_val(i) = error_val(i)/50;
 
+end
 
 
 
