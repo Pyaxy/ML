@@ -1,6 +1,6 @@
 # About ML
 
-本仓库记录了本人学习吴恩达的机器学习的笔记以及作业，[Mechine Learning.md](./Mechine Learning.md)为笔记，ex1-ex8为8次作业。
+本仓库记录了本人学习吴恩达的机器学习的笔记以及作业，[Mechine Learning.md](./Mechine Learning.md)为笔记，ex1-ex8为8次作业，均在Coursera测评中获得满分，有需要可以参考。
 
 ## 学习进度：
 
